@@ -8,7 +8,7 @@ This API generates questions based on the input text using the T5-base question 
 
     ```bash
     git clone https://github.com/komalk19scs/questionAPI.git
-    cd your-repo
+    cd questionAPI
     ```
 
 2. **Install dependencies:**
