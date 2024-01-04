@@ -15,5 +15,5 @@ def generate_questions():
     print(input_text , ': \n Question : ' , questions)
     return jsonify({'input_text': input_text, 'generated_questions': questions})
 
-if __name__ == '_main_':
+if __name__ == '__main__':
     app.run(debug=True)
