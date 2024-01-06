@@ -29,7 +29,7 @@ def generate_questions():
     pipe = pipeline("text2text-generation", model="valhalla/t5-small-qa-qg-hl")
     
     # Generate questions based on the input text
-    response = pipe(input_text, max_length=50, num_return_sequences=1)
+    response = pipe(input_text, max_length=100, num_return_sequences=1)
     
     # Extract generated questions from the response
     generated_question = response[0]["generated_text"]
