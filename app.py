@@ -1,21 +1,25 @@
 # Import necessary libraries
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from transformers import pipeline
 
 # Initialize Flask app
 app = Flask(__name__)
 
-# Define the route for generating questions
-@app.route('/generate_questions', methods=['GET'])
+# Define the route for the main page
+@app.route('/')
+def index():
+    return render_template('index.html')
 
+# Define the route for generating questions
+@app.route('/generate_questions', methods=['POST'])
 def generate_questions():
-    # Retrieve 'text' parameter from the query string
-    input_text = request.args.get('text', '')
+    # Retrieve 'text' parameter from the form data
+    input_text = request.form.get('inputText', '')
     
     # Check if 'text' parameter is missing
     if not input_text:
-        return jsonify({'error': 'Missing text parameter'}), 400
-        
+        return render_template('index.html', error='Missing text parameter')
+
     # Prepend a task-specific token to the input text
     input_text = 'Question Generation: ' + input_text
     
@@ -26,14 +30,12 @@ def generate_questions():
     response = pipe(input_text, max_length=50, num_return_sequences=1)
     
     # Extract generated questions from the response
-    questions = [q["generated_text"] for q in response]
+    generated_question = response[0]["generated_text"]
 
     # Print input text and generated questions for logging
-    print(input_text , ': \n Question : ' , questions)
+    print(input_text, ': \n Question : ', generated_question)
 
-     # Return JSON response containing input text and generated questions
-    return jsonify({'input_text': input_text, 'generated_questions': questions})
+    # Return rendered template with input text and generated questions
+    return render_template('result.html', input_text=input_text, generated_question=generated_question)
 
-# Run the Flask app
-if __name__ == '__main__':
-    app.run(debug=True)
+
