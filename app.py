@@ -24,7 +24,9 @@ def generate_questions():
     input_text = 'Question Generation: ' + input_text
     
     # Initialize T5-based question generation pipeline
-    pipe = pipeline("text2text-generation", model="iarfmoose/t5-base-question-generator")
+    # pipe = pipeline("text2text-generation", model="iarfmoose/t5-base-question-generator")
+
+    pipe = pipeline("text2text-generation", model="valhalla/t5-small-qa-qg-hl")
     
     # Generate questions based on the input text
     response = pipe(input_text, max_length=50, num_return_sequences=1)
